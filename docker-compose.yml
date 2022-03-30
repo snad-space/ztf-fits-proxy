@@ -12,7 +12,7 @@ services:
       HTTPS_METHOD: noredirect
       DYNDNS_HOST: fits.ztf.snad.space
       LETSENCRYPT_HOST: fits.ztf.snad.space
-      LETSENCRYPT_EMAIL: fits.ztf@snad.space
+      LETSENCRYPT_EMAIL: letsencrypt@snad.space
     restart: always
 
   cache-filler:
