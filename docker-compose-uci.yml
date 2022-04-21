@@ -1,0 +1,34 @@
+version: '2'
+services:
+  ztf-fits-proxy:
+    build: proxy
+    volumes:
+      - cache:/cache
+    networks:
+      - app
+      - proxy
+    environment:
+      VIRTUAL_HOST: uci.fits.ztf.snad.space
+      HTTPS_METHOD: noredirect
+      DYNDNS_HOST: uci.fits.ztf.snad.space
+      LETSENCRYPT_HOST: uci.fits.ztf.snad.space
+      LETSENCRYPT_EMAIL: letsencrypt@snad.space
+    restart: always
+
+  cache-filler:
+    build: proxy-cache-filler
+    networks:
+      - app
+    depends_on:
+      - ztf-fits-proxy
+    restart: on-failure
+
+
+volumes:
+  cache:
+
+networks:
+  app:
+  proxy:
+    external:
+      name: proxy

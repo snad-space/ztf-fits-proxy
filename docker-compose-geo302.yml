@@ -1,11 +1,8 @@
 version: '2'
 services:
-  ztf-fits-proxy:
-    build: proxy
-    volumes:
-      - cache:/cache
+  geo302:
+    build: geo302
     networks:
-      - app
       - proxy
     environment:
       VIRTUAL_HOST: fits.ztf.snad.space
@@ -15,20 +12,7 @@ services:
       LETSENCRYPT_EMAIL: letsencrypt@snad.space
     restart: always
 
-  cache-filler:
-    build: proxy-cache-filler
-    networks:
-      - app
-    depends_on:
-      - ztf-fits-proxy
-    restart: on-failure
-
-
-volumes:
-  cache:
-
 networks:
-  app:
   proxy:
     external:
       name: proxy
