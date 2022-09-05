@@ -1,6 +1,6 @@
 FROM rust:bullseye AS builder
 
-ENV VERSION=0.1.1
+ENV VERSION=0.1.2
 RUN cargo install --git https://github.com/hombit/geo302 --tag=v${VERSION} --root=/
 
 
