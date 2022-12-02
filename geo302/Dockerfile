@@ -1,7 +1,7 @@
 FROM rust:bullseye AS builder
 
-ENV VERSION=0.1.3
-RUN cargo install --git https://github.com/hombit/geo302 --tag=v${VERSION} --root=/
+ENV VERSION=0.1.4
+RUN cargo install geo302 --version=${VERSION} --root=/
 
 
 FROM debian:bullseye-slim
