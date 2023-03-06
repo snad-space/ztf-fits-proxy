@@ -1,10 +1,17 @@
-geolite2 = "./geolite2.mmdb"
 host = "0.0.0.0:80"
 ip_headers = ["x-real-ip", "x-forwarded-for"]
-ip_header_recursive = true
-healthckeck_interval = 5
+ip_headers_recursive = true
 log_level = "info"
 response_headers = { Access-Control-Allow-Origin = "*", Access-Control-Allow-Methods = "GET" }
+threads = 2
+
+[healthcheck]
+interval = 5
+timeout = 3
+
+[geoip]
+type = "ripe-geo"
+autoupdate = true
 
 [mirrors.sai]
 upstream = "https://sai.fits.ztf.snad.space/"
