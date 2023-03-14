@@ -14,4 +14,4 @@ WORKDIR /app
 
 RUN pip3 install .
 
-ENTRYPOINT ["gunicorn", "-w4", "-b0.0.0.0:80", "--worker-class=uvicorn.workers.UvicornWorker", "--timeout", "60", "fits_finder.main:app"]
+ENTRYPOINT ["gunicorn", "-w4", "-b0.0.0.0:80", "--worker-class=uvicorn.workers.UvicornWorker", "--timeout", "600", "fits_finder.main:app"]
