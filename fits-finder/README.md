@@ -11,10 +11,11 @@ from pprint import pprint
 import matplotlib.pyplot as plt
 import requests
 from astropy.io import fits
+from astropy.visualization import ImageNormalize
 
 
 url = "https://finder.fits.ztf.snad.space/api/v1/urls/by/oid"
-params = {"oid": 633207400004730, "dr": "latest"}
+params = {"oid": 769209300081806, "dr": "latest"}
 with requests.get(url, params=params) as r:
     r.raise_for_status()
     data = r.json()
@@ -28,5 +29,8 @@ print(urls)
 
 # Download and show the first image
 hdus = fits.open(urls[0])
-plt.imshow(hdus[1].data, origin="lower")
+image = hdus[0].data
+norm = ImageNormalize(image)
+plt.imshow(image, origin="lower", norm=norm)
+plt.show()
 ```
