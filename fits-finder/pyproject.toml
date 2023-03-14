@@ -1,0 +1,53 @@
+[project]
+name = "ztf-fits-url-finder"
+version = "1.0.0"
+authors = [
+  {email = "hombit@gmail.com"},
+  {name = "Konstantin Malanchev"}
+]
+description = "HTTP API for finding ZTF FITS files by object name and observation time"
+# readme = "README.md"
+license = {text = "MIT"}
+keywords = ["science", "astrophysics"]
+requires-python = ">=3.10"
+dependencies = [
+    "astropy",
+    "fastapi",
+    "httpx[http2]",
+    "numpy",
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+tests = [
+    "pytest",
+    "pytest-aiohttp",
+]
+
+[project.urls]
+homepage = "http://finder.fits.ztf.snad.space"
+repository = "https://github.com/snad-space/ztf-fits-proxy"
+
+[tool.setuptools.packages.find]
+exclude = ["tests"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+
+[tool.black]
+line-length = 120
+target-version = ["py310"]
+include = '\.py$'
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"

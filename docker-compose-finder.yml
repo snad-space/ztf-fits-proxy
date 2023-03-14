@@ -1,0 +1,18 @@
+version: '2'
+services:
+  fits-finder:
+    build: fits-finder
+    networks:
+      - proxy
+    environment:
+      VIRTUAL_HOST: finder.fits.ztf.snad.space
+      HTTPS_METHOD: noredirect
+      DYNDNS_HOST: finder.fits.ztf.snad.space
+      LETSENCRYPT_HOST: finder.fits.ztf.snad.space
+      LETSENCRYPT_EMAIL: letsencrypt@snad.space
+    restart: always
+
+networks:
+  proxy:
+    external:
+      name: proxy
