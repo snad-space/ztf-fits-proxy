@@ -50,7 +50,7 @@ FIELDID_QUERY = Query(title="ZTF field ID", ge=1)
 FILTER_QUERY = Query(title=f"ZTF filter name or ID, one of: {FILTERS}", ge=1, le=len(FILTERS), regex="z?[gri]")
 RCID_QUERY = Query(title="ZTF read-out ID, equals to 4 x (CCDID - 1) + (QID - 1)", ge=0, lt=64)
 OID_QUERY = Query(title="ZTF object ID", gt=0)
-DR_QUERY = Query(default="latest", title="ZTF data release number supported by API", ge=1, regex="latest")
+DR_QUERY = Query(default="latest", title="ZTF data release", regex="latest|dr[0-9]+")
 
 
 class Inputs(BaseModel):
@@ -106,7 +106,7 @@ async def urls_by_hmjd_oid(
     *,
     hmjd: float = HMJD_QUERY,
     oid: int = OID_QUERY,
-    dr: int | str = DR_QUERY,
+    dr: str = DR_QUERY,
 ) -> RegionExposure:
     data = await get_by_oid(oid=oid, dr=dr)
     meta = data["meta"]
@@ -117,9 +117,7 @@ async def urls_by_hmjd_oid(
 
 
 @router.get("/api/v1/sciimg/by/oid", name="Redirect to sciimg file", status_code=307)
-async def sciimg_by_oid(
-    *, hmjd: float = HMJD_QUERY, oid: int = OID_QUERY, dr: int | str = DR_QUERY
-) -> RedirectResponse:
+async def sciimg_by_oid(*, hmjd: float = HMJD_QUERY, oid: int = OID_QUERY, dr: str = DR_QUERY) -> RedirectResponse:
     region_exposure = await urls_by_hmjd_oid(hmjd=hmjd, oid=oid, dr=dr)
     return RedirectResponse(region_exposure.urls.sciimg)
 
@@ -128,7 +126,7 @@ async def sciimg_by_oid(
 async def urls_by_oid(
     *,
     oid: int = OID_QUERY,
-    dr: int | str = DR_QUERY,
+    dr: str = DR_QUERY,
 ) -> list[RegionExposure]:
     data = await get_by_oid(oid=oid, dr=dr)
     hmjd_ = [obs["mjd"] for obs in data["lc"]]
