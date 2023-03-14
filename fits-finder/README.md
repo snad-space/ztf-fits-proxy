@@ -11,7 +11,7 @@ from pprint import pprint
 import matplotlib.pyplot as plt
 import requests
 from astropy.io import fits
-from astropy.visualization import ImageNormalize
+from astropy.visualization import ImageNormalize, HistEqStretch
 
 
 url = "https://finder.fits.ztf.snad.space/api/v1/urls/by/oid"
@@ -30,7 +30,7 @@ print(urls)
 # Download and show the first image
 hdus = fits.open(urls[0])
 image = hdus[0].data
-norm = ImageNormalize(image)
+norm = ImageNormalize(image, stretch=HistEqStretch(image))
 plt.imshow(image, origin="lower", norm=norm)
 plt.show()
 ```
