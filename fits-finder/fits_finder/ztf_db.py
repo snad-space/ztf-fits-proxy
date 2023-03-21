@@ -1,10 +1,8 @@
-from typing import Literal
-
 from .config import ZTF_DR_DB_API_BASE_URL
 from .http_client import http_client
 
 
-async def get_by_oid(oid: int, dr: int | Literal["latest"] = "latest") -> dict:
+async def get_by_oid(oid: int, dr: str = "latest") -> dict:
     url = f"{ZTF_DR_DB_API_BASE_URL}/api/v3/data/{dr}/oid/full/json?oid={oid}"
     response = await http_client.get(url)
     response.raise_for_status()

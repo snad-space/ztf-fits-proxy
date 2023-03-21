@@ -5,7 +5,6 @@ import numpy as np
 from astropy.coordinates import EarthLocation, SkyCoord
 from astropy.time import Time
 
-from .config import ZTF_FITS_PRODUCTS_URL
 from .http_client import http_client
 
 
@@ -23,10 +22,11 @@ class DateWithFrac:
     month: int
     day: int
     fraction: float
+    base_url: str
     frac_decimal_digits: int = 6
 
     @classmethod
-    def from_hmjd(cls, hmjd: float, coord: SkyCoord) -> "DateWithFrac":
+    def from_hmjd(cls, *, hmjd: float, coord: SkyCoord, base_url: str) -> "DateWithFrac":
         t = hmjd_to_earth(hmjd, coord)
         dt = t.to_datetime()
         return cls(
@@ -34,6 +34,7 @@ class DateWithFrac:
             month=dt.month,
             day=dt.day,
             fraction=t.mjd % 1,
+            base_url=base_url,
         )
 
     @property
@@ -47,10 +48,10 @@ class DateWithFrac:
         return f"{self.year}{self.monthday}{self.frac_digits(digits):0{digits}d}"
 
     def folder_day(self) -> str:
-        return f"{ZTF_FITS_PRODUCTS_URL}/{self.year}/{self.monthday}/"
+        return f"{self.base_url}/{self.year}/{self.monthday}/"
 
     def folder(self) -> str:
-        return f"{ZTF_FITS_PRODUCTS_URL}/{self.year}/{self.monthday}/{self.frac_digits():06d}/"
+        return f"{self.base_url}/{self.year}/{self.monthday}/{self.frac_digits():06d}/"
 
     def basename(self, *, fieldid: int, filter: str, ccdid: int, qid: int) -> str:
         return f"{self.folder()}ztf_{self.repr()}_{fieldid:06d}_{filter}_c{ccdid:02d}_o_q{qid}"
