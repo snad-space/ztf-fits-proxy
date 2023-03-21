@@ -5,6 +5,7 @@ import numpy as np
 from astropy.coordinates import EarthLocation, SkyCoord
 from astropy.time import Time
 
+from .config import ZTF_FITS_PRODUCTS_URL
 from .http_client import http_client
 
 
@@ -22,11 +23,10 @@ class DateWithFrac:
     month: int
     day: int
     fraction: float
-    base_url: str
     frac_decimal_digits: int = 6
 
     @classmethod
-    def from_hmjd(cls, *, hmjd: float, coord: SkyCoord, base_url: str) -> "DateWithFrac":
+    def from_hmjd(cls, *, hmjd: float, coord: SkyCoord) -> "DateWithFrac":
         t = hmjd_to_earth(hmjd, coord)
         dt = t.to_datetime()
         return cls(
@@ -34,7 +34,6 @@ class DateWithFrac:
             month=dt.month,
             day=dt.day,
             fraction=t.mjd % 1,
-            base_url=base_url,
         )
 
     @property
@@ -47,20 +46,22 @@ class DateWithFrac:
     def repr(self, digits: int = frac_decimal_digits) -> str:
         return f"{self.year}{self.monthday}{self.frac_digits(digits):0{digits}d}"
 
-    def folder_day(self) -> str:
-        return f"{self.base_url}/{self.year}/{self.monthday}/"
+    def folder_day(self, base_url: str) -> str:
+        return f"{base_url}/{self.year}/{self.monthday}/"
 
-    def folder(self) -> str:
-        return f"{self.base_url}/{self.year}/{self.monthday}/{self.frac_digits():06d}/"
+    def folder(self, base_url: str) -> str:
+        return f"{base_url}/{self.year}/{self.monthday}/{self.frac_digits():06d}/"
 
-    def basename(self, *, fieldid: int, filter: str, ccdid: int, qid: int) -> str:
-        return f"{self.folder()}ztf_{self.repr()}_{fieldid:06d}_{filter}_c{ccdid:02d}_o_q{qid}"
+    def basename(self, *, fieldid: int, filter: str, ccdid: int, qid: int, base_url: str) -> str:
+        return f"{self.folder(base_url)}ztf_{self.repr()}_{fieldid:06d}_{filter}_c{ccdid:02d}_o_q{qid}"
 
-    def path(self, *, suffix: str = "sciimg.fits", fieldid: int, filter: str, ccdid: int, qid: int) -> str:
-        return f"{self.basename(fieldid=fieldid, filter=filter, ccdid=ccdid, qid=qid)}_{suffix}"
+    def path(
+        self, *, suffix: str = "sciimg.fits", fieldid: int, filter: str, ccdid: int, qid: int, base_url: str
+    ) -> str:
+        return f"{self.basename(fieldid=fieldid, filter=filter, ccdid=ccdid, qid=qid, base_url=base_url)}_{suffix}"
 
     async def fracs_in_day_folder(self) -> list[int]:
-        response = await http_client.get(self.folder_day(), follow_redirects=True)
+        response = await http_client.get(self.folder_day(base_url=ZTF_FITS_PRODUCTS_URL), follow_redirects=True)
         response.raise_for_status()
         body = response.text
         fracs = re.findall(r'<a href="(\d{6})/">\1/</a>', body)

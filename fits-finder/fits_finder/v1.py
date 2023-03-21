@@ -95,13 +95,13 @@ async def urls_by_hmjd_ra_dec_rcid(
     qid = rcid % 4 + 1
 
     coord = SkyCoord(ra=ra, dec=dec, unit="deg")
-    date = DateWithFrac.from_hmjd(hmjd=hmjd, coord=coord, base_url=base_url)
+    date = DateWithFrac.from_hmjd(hmjd=hmjd, coord=coord)
     try:
         date = await date.correct()
     except httpx.HTTPError as e:
         logging.error(str(e))
         raise HTTPException(status_code=500, detail="Failed to correct date")
-    basename = date.basename(fieldid=fieldid, filter=filter, ccdid=ccdid, qid=qid)
+    basename = date.basename(fieldid=fieldid, filter=filter, ccdid=ccdid, qid=qid, base_url=base_url)
 
     urls = URLs(**{ftype: f"{basename}_{fsuffix}" for ftype, fsuffix in FILE_TYPES.items()})
 
