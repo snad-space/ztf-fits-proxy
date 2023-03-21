@@ -94,6 +94,8 @@ async def urls_by_hmjd_ra_dec_rcid(
     ccdid = rcid // 4 + 1
     qid = rcid % 4 + 1
 
+    base_url = ZTF_FITS_PRODUCTS_BASE_URL_MAPPING.get(base_url, base_url)
+
     coord = SkyCoord(ra=ra, dec=dec, unit="deg")
     date = DateWithFrac.from_hmjd(hmjd=hmjd, coord=coord)
     try:
