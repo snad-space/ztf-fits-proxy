@@ -48,7 +48,7 @@ HMJD_QUERY = Query(title="Heliocentric modified Julian date of middle exposure",
 RA_QUERY = Query(title="Right ascension in degrees", ge=0.0, lt=360.0)
 DEC_QUERY = Query(title="Declination in degrees", ge=-90.0, le=90.0)
 FIELDID_QUERY = Query(title="ZTF field ID", ge=1)
-FILTER_QUERY = Query(title=f"ZTF filter name or ID, one of: {FILTERS}", ge=1, le=len(FILTERS), regex="z?[gri]")
+FILTER_QUERY = Query(title=f"ZTF filter name or ID, one of: {FILTERS}", regex="z?[gri]|[123]")
 RCID_QUERY = Query(title="ZTF read-out ID, equals to 4 x (CCDID - 1) + (QID - 1)", ge=0, lt=64)
 OID_QUERY = Query(title="ZTF object ID", gt=0)
 DR_QUERY = Query(default="latest", title="ZTF data release", regex="latest|dr[0-9]+")
