@@ -38,7 +38,7 @@ FILTER_MAP = {
         [
             zip(FILTERS, FILTERS),  # zg -> zg
             zip([f[1] for f in FILTERS], FILTERS),  # g -> zg
-            zip(count(1), FILTERS),  # 1 -> zg
+            zip(map(str, count(1)), FILTERS),  # 1 -> zg
         ]
     )
 }
@@ -82,7 +82,7 @@ async def urls_by_hmjd_ra_dec_rcid(
     hmjd: float = HMJD_QUERY,
     ra: float = RA_QUERY,
     dec: float = DEC_QUERY,
-    filter: str | int = FILTER_QUERY,
+    filter: str = FILTER_QUERY,
     fieldid: int = FIELDID_QUERY,
     rcid: int = RCID_QUERY,
     base_url: str = BASE_URL_QUERY,
@@ -94,7 +94,7 @@ async def urls_by_hmjd_ra_dec_rcid(
     ccdid = rcid // 4 + 1
     qid = rcid % 4 + 1
 
-    base_url = ZTF_FITS_PRODUCTS_BASE_URL_MAPPING.get(base_url, base_url)
+    base_url = ZTF_FITS_PRODUCTS_BASE_URL_MAPPING[base_url]
 
     coord = SkyCoord(ra=ra, dec=dec, unit="deg")
     date = DateWithFrac.from_hmjd(hmjd=hmjd, coord=coord)
