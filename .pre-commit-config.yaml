@@ -24,7 +24,7 @@ repos:
         name: black for fits-finder
         args: ["--config=./fits-finder/pyproject.toml", "./fits-finder"]
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.9.4'
+    rev: 'v0.9.6'
     hooks:
     -   id: ruff
         name: ruff for fits-finder
