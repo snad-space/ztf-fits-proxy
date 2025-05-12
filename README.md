@@ -11,12 +11,6 @@ It is represented by two Docker containers: one for the Nginx proxy itself  (see
 Currently, the service is deployed to two locations: http://sai.fits.ztf.snad.space and http://uci.fits.ztf.snad.space, see `docker-compose-sai.yml` and `docker-compose-uci.yml` for details.
 However, the end user should use a redirect proxy to access the service.
 
-### Geo-IP redirect proxy
-
-The service is [`geo302`](https://github.com/hombit/geo302) redirect proxy that redirects the user to the nearest service location.
-It sends health checks to the services and updates the list of available services periodically.
-The service is deployed to http://fits.ztf.snad.space, see `docker-compose-geo302.yml` for details.
-
 ### FITS finder API
 
 The service is an API that returns a list of ZTF photometry products for a given observation of a ZTF DR object.
