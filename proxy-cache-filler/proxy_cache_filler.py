@@ -6,7 +6,6 @@ from urllib.parse import urljoin
 
 import requests
 
-
 BASE_URL = "http://ztf-fits-proxy/products/sci/"
 
 ZTFSTARTDATE = datetime(2017, 9, 26)
