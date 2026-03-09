@@ -8,7 +8,6 @@ from astropy.time import Time
 from .config import ZTF_FITS_PRODUCTS_URL
 from .http_client import http_client
 
-
 PALOMAR = EarthLocation(lon=-116.863, lat=33.356, height=1706)  # EarthLocation.of_site('Palomar')
 
 
