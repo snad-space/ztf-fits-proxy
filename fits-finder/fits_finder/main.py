@@ -6,7 +6,6 @@ from fastapi import FastAPI
 from . import root, v1
 from .http_client import http_client
 
-
 app = FastAPI(
     title="ZTF FITS Finder API by SNAD",
     version=metadata.version("ztf-fits-url-finder"),

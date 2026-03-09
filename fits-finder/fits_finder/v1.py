@@ -12,7 +12,6 @@ from .config import ZTF_FITS_PRODUCTS_URL, ZTF_FITS_PRODUCTS_BASE_URL_MAPPING
 from .date_with_frac import DateWithFrac
 from .ztf_db import get_by_oid
 
-
 router = APIRouter()
 
 FILE_SUFFIXES = [
