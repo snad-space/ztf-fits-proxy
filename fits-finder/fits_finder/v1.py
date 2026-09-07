@@ -12,6 +12,8 @@ from .config import ZTF_FITS_PRODUCTS_BASE_URL_MAPPING, ZTF_FITS_PRODUCTS_URL
 from .date_with_frac import DateWithFrac
 from .ztf_db import get_by_oid
 
+logger = logging.getLogger(__name__)
+
 router = APIRouter()
 
 FILE_SUFFIXES = [
@@ -100,7 +102,7 @@ async def urls_by_hmjd_ra_dec_rcid(
     try:
         date = await date.correct()
     except httpx.HTTPError as e:
-        logging.error(str(e))
+        logger.error(str(e))
         raise HTTPException(status_code=500, detail="Failed to correct date")
     basename = date.basename(fieldid=fieldid, filter=filter, ccdid=ccdid, qid=qid, base_url=base_url)
 
