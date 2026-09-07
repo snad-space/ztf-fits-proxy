@@ -40,7 +40,7 @@ class DateWithFrac:
         return f"{self.month:02d}{self.day:02d}"
 
     def frac_digits(self, digits: int = 6) -> int:
-        return int(round(self.fraction * 10**digits))
+        return round(self.fraction * 10**digits)
 
     def repr(self, digits: int = frac_decimal_digits) -> str:
         return f"{self.year}{self.monthday}{self.frac_digits(digits):0{digits}d}"
