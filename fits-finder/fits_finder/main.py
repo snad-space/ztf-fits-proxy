@@ -2,7 +2,6 @@ from importlib import metadata
 
 from fastapi import FastAPI
 
-
 from . import root, v1
 from .http_client import http_client
 

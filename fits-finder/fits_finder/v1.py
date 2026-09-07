@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, create_model
 
-from .config import ZTF_FITS_PRODUCTS_URL, ZTF_FITS_PRODUCTS_BASE_URL_MAPPING
+from .config import ZTF_FITS_PRODUCTS_BASE_URL_MAPPING, ZTF_FITS_PRODUCTS_URL
 from .date_with_frac import DateWithFrac
 from .ztf_db import get_by_oid
 
@@ -53,7 +53,7 @@ OID_QUERY = Query(title="ZTF object ID", gt=0)
 DR_QUERY = Query(default="latest", title="ZTF data release", regex="latest|dr[0-9]+")
 BASE_URL_QUERY = Query(
     default=ZTF_FITS_PRODUCTS_URL,
-    title=f"Base URL of scientific ZTF products, such as {ZTF_FITS_PRODUCTS_URL}, or one of of the code names: {list(ZTF_FITS_PRODUCTS_BASE_URL_MAPPING)}",  # noqa: E501
+    title=f"Base URL of scientific ZTF products, such as {ZTF_FITS_PRODUCTS_URL}, or one of of the code names: {list(ZTF_FITS_PRODUCTS_BASE_URL_MAPPING)}",
     regex=r"SNAD|IPAC|https?://\S+",
 )
 

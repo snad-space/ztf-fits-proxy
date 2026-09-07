@@ -18,4 +18,4 @@ def homepage() -> HTMLResponse:
 <p>
     See source code as a part of <a href="{metadata.metadata("ztf-fits-url-finder")["Repository"]}"><font face="monospace">ztf-fits-proxy</font></a> project on GitHub.
 </p>
-""")  # noqa: E501
+""")
